@@ -1,7 +1,5 @@
 import { ReactNode, useEffect, useState } from "react";
-import { getCurrentWindow, LogicalSize } from "@tauri-apps/api/window";
 import { readText } from "@tauri-apps/plugin-clipboard-manager";
-import useResizeObserver from "use-resize-observer";
 import {
   Flex,
   Theme,
@@ -144,7 +142,7 @@ function App() {
   const [strengthColor, setStrengthColor] =
     useState<BadgeProps["color"]>(undefined);
   const [crackTime, setCrackTime] = useState("");
-  const [isGenerating, setIsGenerating] = useState(false);
+  const [_isGenerating, setIsGenerating] = useState(false);
   const [password, setPassword] = useState("");
   const [hashPassword, setHashPassword] = useState("");
   const [md5String, setMd5String] = useState("");
@@ -327,17 +325,6 @@ function App() {
     }
   }, [passwordType]);
 
-  async function setWindowHeight(height: number) {
-    await getCurrentWindow().setSize(new LogicalSize(480, height));
-  }
-
-  const { ref } = useResizeObserver<HTMLDivElement>({
-    onResize: ({ height }) => {
-      if (height) {
-        setWindowHeight(height);
-      }
-    },
-  });
 
   return (
     <Theme
@@ -347,9 +334,8 @@ function App() {
       accentColor={storedThemeColorValue as ThemeProps["accentColor"]}
       grayColor="slate"
     >
-      <Box ref={ref} data-tauri-drag-region>
+      <Box  data-tauri-drag-region>
         <Box
-          height="30px"
           data-tauri-drag-region
           style={{
             backgroundColor:
@@ -666,7 +652,7 @@ function App() {
                   </Button>
                 </Grid>
               </Flex>
-              <Flex align="center" gap="2" justify="center" height="1px" mt="1">
+              {/* <Flex align="center" gap="2" justify="center" height="1px" mt="1">
                 {isGenerating ? (
                   <>
                     <Spinner size="1" />
@@ -675,7 +661,7 @@ function App() {
                     </Text>
                   </>
                 ) : null}
-              </Flex>
+              </Flex> */}
             </Tabs.Content>
             <Tabs.Content value="hasher">
               <Flex direction="column" gap="3">
